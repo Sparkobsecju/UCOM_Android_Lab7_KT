@@ -29,20 +29,50 @@ class MainActivity : AppCompatActivity() {
         registerForContextMenu(iv1)
     }
 
-    override fun onCreateContextMenu(
+    companion object {
+        const val MENU1_ID = 1
+        const val MENU2_ID = 2
+    }
+
+    override fun onCreateContextMenu( // add textView to the context menu
         menu: ContextMenu?,
         v: View?,
         menuInfo: ContextMenu.ContextMenuInfo?
     ) {
         var title=""
         super.onCreateContextMenu(menu, v, menuInfo)
-        when(v!!.id) {
-            R.id.textView -> title = "文字元件的選單"
-            R.id.imageView -> title = "影像元件的選單"
+//        when(v!!.id) {
+//            R.id.textView -> title = "文字元件的選單"
+//            R.id.imageView -> title = "影像元件的選單"
+//        }
+//        menu!!.add("本文選單1")
+//        menu.add("本文選單2")
+//        menu.setHeaderTitle("是${title}")
+
+        menu!!.setHeaderTitle("是${title}")
+        when (v!!.id) {
+            R.id.textView -> {
+                title = "文字元件的選單"
+                menu.add(0, MENU1_ID, 0, "本文選單1")
+            }
+
+            R.id.imageView -> {
+                title = "影像元件的選單"
+                menu.add(0, MENU2_ID, 0, "本文選單2")
+            }
+
         }
-        menu!!.add("本文選單1")
-        menu.add("本文選單2")
-        menu.setHeaderTitle("是${title}")
+    }
+
+    override fun onContextItemSelected(item: MenuItem): Boolean {
+        // set the action of the context menu
+        var action = ""
+        when (item.itemId) {
+            MENU1_ID -> action = "本文選單1被點擊"
+            MENU2_ID -> action = "本文選單2被點擊"
+        }
+        Toast.makeText(this, "!!${action}!!", Toast.LENGTH_SHORT).show()
+        return super.onContextItemSelected(item)
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
